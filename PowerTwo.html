@@ -1,0 +1,2599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bottom Div</title>
+</head>
+<style>
+    body{
+        background-color: #40bfcb;
+    }
+    .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 50vh;
+            width: 22vw;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            opacity: 0.3;
+        }
+        .container:hover {
+            opacity: 1;
+        }
+        #unexpected1{
+           font-size: 100%;
+        }
+        #expenseAmount::placeholder {
+         color: red;
+         font-weight: 900;
+        }
+        .input-group {
+            margin-bottom: 4%;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 2%;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 2%;
+            margin: 2% 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .input-group button, .add-expense-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 70%;
+            margin-top: 2%;
+        }
+        .input-group button:hover, .add-expense-btn:hover {
+            background-color: #45a049;
+        }
+        #chart {
+            width: 100%;
+            height: 40vh;
+            margin-top: 4%;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 5%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 300px;
+            text-align: center;
+        }
+        .popup input {
+            width: 80%;
+            padding: 2%;
+            margin: 3% 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .add-expense-btn{
+            background-color: red;
+            width: 10vw;
+        }
+        .popup button {
+            padding: 3% 5%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 80%;
+            margin-top: 2%;
+        }
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+        .popup .cancel-btn {
+            background-color: #dc3545;
+            margin-top: 2%;
+        }
+        .popup .cancel-btn:hover {
+            background-color: #c82333;
+        }
+        .add-expense-btn{
+            background-color: #007BFF;
+            position: absolute;
+            left: 55vw;
+            top: 44.5vh;
+        }
+        .expenses-popup-btn{
+            background-color: #0a3526;
+            position: absolute;
+            left: 66vw;
+            top: 48.5vh;
+            border-radius: 8px;
+            border: none;
+            color: white;
+        }
+
+        /*//////////////////// Linear styles///////////////////////////////*/
+       
+        .Linearcontainer {
+            display: flex;
+            flex-direction: column; 
+            align-items: center;
+            width: 45vw;
+            height: 49vh;
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+            position: absolute;
+           bottom: 0;
+           right: 0;
+        }
+        #income , #outcome { padding: 10px; 
+            font-size: 16px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; width: 
+            120px; text-align: center; 
+        }
+        #setStartLinear { 
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 3;
+            font-size: 30%;
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background-color: #45a049; 
+        }
+        .chart-container { 
+            width: 100%; 
+            height: 100%;
+            flex-grow: 1; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+      
+        .final-values { 
+            margin-top: 10px; 
+            font-size: 18px; 
+            text-align: center; 
+            color: #333; 
+        }
+            /*//////////////paragraphs//////////////////*/
+        #EntireStatement{
+           
+            position: absolute;
+            top: 1%;
+            left: 3%;
+            font-size: 90%;
+        }
+        #CurrentStatement{
+            font-size: 90%;
+            position: absolute;
+            top: 5.5%;
+            left: 3%;
+        }
+        #finalOutcome {
+            font-size: 100%;
+            font-weight: 900;
+            color: #007BFF;
+        }
+        #finalIncome {
+            font-size: 100%;
+            font-weight: 900;
+            color: green
+        }
+        /*\\\\\\\\\\\\\\\\\\\\daylyFinancescontainer \\\\\\\\\\\\\\\\\\\\\\*/
+     
+        .left {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            left: 0;
+            top: 0;
+            width: 35%;
+            height: 58vh;
+            border-radius: 8px;
+            border-right: 1px solid #ccc;
+            z-index: 2;
+            opacity: 0.1;
+        }
+        .left:hover {
+            opacity: 1;
+            background-color: #f9f6f6;
+        }
+        #chartBar {
+            width: 50vw;
+            height: 30%;
+            margin-top: 20px;
+        }
+        #ChartBarContainer{
+            position: absolute;
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+            top: 0;
+            right: 0;
+            width: 45vw;
+            height: 49vh;
+            background-color: #f9f6f6;
+        }
+        .day-list {
+            margin-top: 3%;
+    
+            overflow-y: auto;
+        }
+        .day-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 1% 0;
+            
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .ddate{
+            background-color: #4c99af;
+            padding: 1%;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .earned {
+            background-color: #4CAF50;
+            padding: 1%;
+            border-radius: 4px;
+        }
+        .spent {
+            background-color: #FF9800;
+            padding: 1%;
+            border-radius: 4px;
+        }
+        .remaining {
+            background-color: #2196F3;
+            font-weight: 900;
+            padding: 1%;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                flex-direction: column;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+        /*///////////////////////swich months/////////////////////*/
+        .monthButtonsContainer {
+            position: absolute;
+            top: 0;
+            right: 38.5vw;
+            z-index: 3;
+            display: flex;
+            width: 320px;
+            align-items: center;
+            background: white;
+            opacity: 0.3;
+            
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+            &:hover{
+                opacity: 1;
+            }
+        }
+
+        #prev , #next {
+            padding: 3% 5%;
+            margin: 3%;
+            font-size: 100%;
+            cursor: pointer;
+            border: none;
+            background: #ff758c;
+            color: white;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background: #ff5e6c;
+            transform: scale(1.1);
+        }
+        p {
+            font-size: 100%;
+            margin: 0 5%;
+            
+            text-align: center;
+            font-weight: bold;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .fade {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        #currenciCalculator{
+            position: absolute;
+            right: 16vw;
+            bottom: 14vh;
+            height: 30vh;
+            width: 25vw;
+        }
+        #plnBank{
+            position: absolute;
+            top: 0;
+            left: 50%;
+        }
+        #plnRate{
+            position: absolute;
+            top: 0;
+        }
+        #mdlBank{
+            position: absolute;
+            top: 7%;
+            left: 50%;
+        }
+        #mdlRate{
+            position: absolute;
+            top: 7%;
+        }
+        #eurBank{
+            position: absolute;
+            top: 14%;
+            left: 50%;
+        }
+        #eurRate{
+            position: absolute;
+            top: 14%;
+        }
+        #usdBank{
+            position: absolute;
+            top: 21%;
+            left: 50%;
+        }
+        #totalContainer{
+            position: absolute;
+            top: 30%;
+            width: 60%;
+            display: flex;
+            align-items: baseline;
+            flex-direction: column;
+        }
+        #MonthHours{
+            font-size: 100%;
+            background-color: red;
+            border-radius: 6px;
+            
+        }
+       #motMaching{
+        position: absolute;
+        bottom: 19vh;
+        left: 53vw;
+       }
+       #sustaining{
+        position: absolute;
+        top: 1vh;
+        right: 15vw;
+        font-size: 70%;
+       }
+       .Balance{
+        
+        border: none;
+        font-size: 100%;
+        font-weight: 900;
+       
+        width: 8vw;
+        background-color: transparent;
+       }
+       .RateInput{
+        border: none;
+        font-size: 100%;
+        font-weight: 900;
+        color: #6735dc;
+        width: 8vw;
+        background-color: transparent;
+       }
+       /* learn////////////////////////////////*/
+       .learn-canvas {
+        width: 100%;
+        height: 100%;
+        }
+        #learn-input-container {
+            width: 45vw;
+            height: 49vh;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+            
+          
+        }
+        .learn-input {
+            padding: 8px;
+            margin: 5px;
+        }
+        .learn-button {
+            
+            cursor: pointer;
+        }
+        #selfImprovement{
+            position: absolute;
+            top: 2%;
+            left: 65%;
+        }
+        #workedHurs{
+            position: absolute;
+            top: 2%;
+            left: 15%;
+        }
+
+
+        #myChart3{
+            height: 100%;
+            width: 100%;
+            
+        }
+        #learn-input-container2 {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 45vw;
+            height: 49vh;
+            background-color: white;
+            border-radius: 8px;
+           
+        }
+        .learn-input2 {
+            padding: 8px;
+            margin: 5px;
+        }
+        .learn-button2 {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        /*........................tmetracker...........................*/
+
+        #clock {
+            position: absolute;
+            bottom: 1vh;
+            left: 3vw;
+            font-size: 1vw;
+            font-weight: bold;
+            
+        }
+        .input-timeTrack {
+            position: absolute;
+            bottom: 3vh;
+            left: 2vw;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .input-timeTrack input {
+            height: 2vh;
+        }
+       
+        #setTimeButton {
+          
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #setTimeButton:hover {
+            background-color: #45a049;
+        }
+        #learnen3{
+            position: absolute;
+            width: 100%;
+            height: 4vh;
+            top: 0;
+            border: 1px solid red;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            
+        }
+       
+      
+</style>
+   
+<body>
+
+  
+  
+  <button id="setStartLinear" onclick="BOX.linearSetInitialValues()">Set Start</button>
+<div class="final-values">
+    
+    
+</div>
+  <div ondblclick="BOX.linearScale()" class="Linearcontainer" id="inearcontainer2">
+    <p id="CurrentStatement"><strong>Current Statement:</strong> <span id="finalOutcome">0</span> $</p>
+    <p id="EntireStatement"><strong>Actual Statement...:</strong> <span id="finalIncome">0</span> $</p>
+    <div class="chart-container">
+        <canvas id="linearChart"></canvas>
+    </div>
+</div>
+
+<div class="left">
+    <p id="MonthHours"> Previous month hours: 0  Current month hurs: 0</p>
+    <div class="day-list" id="dayList"></div>
+</div>
+      
+ <div ondblclick="BOX.barSkale()" id="ChartBarContainer">
+     <canvas id="chartBar"></canvas>
+ </div>
+ 
+ <div class="monthButtonsContainer">
+     <button id="prev">&#9665; Prev</button>
+     <p id="month"></p>
+     <button id="next">Next &#9655;</button>
+ </div>
+
+        
+        
+
+
+ <div id="currenciCalculator">
+     <label ondblclick="BOX.mainBankAccount('plnBank')" id="plnBank">PLN: <input class="Balance" type="number" id="balancePLN" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label id="plnRate">PLN/USD: <input class="RateInput" type="number" step="0.01" id="ratePLN" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label ondblclick="BOX.mainBankAccount('mdlBank')" id="mdlBank">MDL: <input class="Balance" type="number" id="balanceMDL" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label id="mdlRate">MDL/USD: <input class="RateInput" type="number" step="0.01" id="rateMDL" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label ondblclick="BOX.mainBankAccount('eurBank')" id="eurBank">EUR: <input class="Balance" type="number" id="balanceEUR" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label id="eurRate">EUR/USD: <input class="RateInput" type="number" step="0.01" id="rateEUR" oninput="BOX.currencyCalculateTotal()"></label><br>
+     <label ondblclick="BOX.mainBankAccount('usdBank')" id="usdBank">USD: <input class="Balance" type="number" id="balanceUSD" oninput="BOX.currencyCalculateTotal()"></label><br><br>
+     <div id="totalContainer">
+     <p id="totalPLN">Total in PLN: </p>
+     <p id="totalMDL">Total in MDL: </p>
+     <p id="totalEUR">Total in EUR: </p>
+     <p id="totalUSD">Total in USD: </p>
+     </div>
+ </div>
+
+        <p id="motMaching">difference: 0</p>
+
+        <p id="sustaining">sustaining</p>
+
+
+        
+    
+
+        <div id="learn-input-container"  ondblclick="BOX.improveHoursScale()">
+            <div id="selfImprovement">SelfImproovement</div>
+            <div id="workedHurs">TotalHours</div>
+            <canvas class="learn-canvas" id="myChart2"></canvas>        
+        </div>
+       
+    <div id="learn-input-container2" ondblclick="BOX.toBeLearnedScale()">
+        <div id="learnen3">
+            <p id="toBeLearned3">To be learned:</p>
+            <p id="learned3">Learned:</p>
+        </div>
+        
+        <canvas class="learn-canvas2"  id="myChart3"></canvas>
+    </div>
+
+
+
+        <div id="clock">00:00:00:00</div>
+
+        <div class="input-timeTrack">
+            <input type="number" id="addHours" placeholder="Hours" min="0">
+            <input type="number" id="addMinutes" placeholder="Minutes" min="0">
+            <button id="setTimeButton" onclick="addTime()">Add</button>
+        </div>
+       
+
+        
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    localStorage.setItem("lastTimestamp", Date.now()); // Save the exact close time    
+let startingPoint = 0;
+let previousMonthHours = 0;
+let currentMonthHours = 0;
+let TotalHours = 0;
+let MoneyLastMonth = 0;
+let MoneyThisMonth = 0;
+let graphsCoincidence = false;
+let MainBankInSistem = "plnBank"
+let last_day_date = ""
+const today = new Date();
+const Day_Today = today.toISOString().substring(8, 10);
+
+const nameOfTheMonth = "January";
+let monthName = "January";
+
+let countExpectAmount = 0;
+        let ExpectPln = 0;
+        let ExpectMdl = 0;
+        let ExpectEur = 0;
+    
+        let countUnexpectAmount = 0;
+        let UnexpectPln = 0;
+        let UnexpectMdl = 0;
+        let UnexpectEur = 0;
+
+        let countTotalAmount = 0;
+        let totalPln = 0;
+        let totalMdl = 0;
+        let totalEur = 0;
+
+        ////////////////////time/////////////////////////
+        
+
+        let startTime = parseInt(localStorage.getItem("savedTime")) || 0; // Retrieve stored time
+        let lastSavedTimestamp = parseInt(localStorage.getItem("lastTimestamp")) || Date.now();
+        
+        // Adjust time for the duration the page was closed
+        let elapsedTime = Math.floor((Date.now() - lastSavedTimestamp) / 1000);
+        let timeInSeconds = startTime + elapsedTime;
+        ////////////////////////////time///////////////////////////////////////
+
+    
+
+
+
+if (JSON.parse(localStorage.getItem("POWER"))) {
+    MainBankInSistem = JSON.parse(localStorage.getItem("POWER")).currencyData.bank
+}
+document.getElementById(MainBankInSistem).style.backgroundColor = "red"
+let CurrentExchange  =  1;
+
+
+
+
+    const curMonth = new Date().getMonth() + 1; // Get month (1-12)
+    const formMon = curMonth.toString().padStart(2, '0'); // Ensure two-digit format
+    const MonthNow = Number(formMon);
+    const prevMMon = MonthNow - 1;       
+let scalePizzaGraph = false;
+
+
+
+
+
+const POWER = {
+    "pizzaGraph": {
+        "January": {"expenses": []},
+        "February": {"expenses": []},
+        "March": {"expenses": []},
+        "April": {"expenses": []},
+        "May": {"expenses": []},
+        "June": {"expenses": []},
+        "July": {"expenses": []},
+        "August": {"expenses": []},
+        "September": {"expenses": []},
+        "October": {"expenses": []},
+        "November": {"expenses": []},
+        "December": {"expenses": []}
+    },
+    "linearGraph": {
+        "labels": [],
+        "incomeData": [],
+        "outcomeData": [],
+        "cumulativeIncome": 0,
+        "cumulativeOutcome": 0
+    },
+    "currencyData": {
+        "balancePLN": "",
+        "balanceMDL": "",
+        "balanceEUR": "",
+        "balanceUSD": "",
+        "ratePLN": "",
+        "rateMDL": "",
+        "rateEUR": "",
+        "bank": "plnBank"
+    },
+    "workData": {
+        "hourlyRate": 20,
+        "workDays": [],
+        "totalEarned": 0,
+        "remainingBalance": 0
+    },
+    "learnStore": {
+        "labels3": ["2025-02-07"],
+        "redData3": [0],
+        "greenData3": [0]
+    }
+}
+let budgetData = JSON.parse(localStorage.getItem('POWER')) || POWER;
+let selectedExpenseIndex = null;
+      // Retrieve stored data from localStorage
+
+      (MainBankInSistem === "plnBank") && (CurrentExchange =Number(budgetData.currencyData.ratePLN));
+      (MainBankInSistem === "mdlBank") && (CurrentExchange = Number(budgetData.currencyData.rateMDL));
+      (MainBankInSistem === "eurBank") && (CurrentExchange = Number(budgetData.currencyData.rateEUR));
+
+      let TotttAl = 0;
+        budgetData.workData.workDays.forEach(element => {
+          TotttAl +=  element.hoursWorked;
+        });
+       document.getElementById("workedHurs").innerText = `Job hours: ${TotttAl}`
+
+
+
+
+
+
+
+                    let re =  0;
+                    let gre =  0;
+
+                    
+
+                    let tar = [];
+
+                    if (localStorage.getItem("learnProgress")) {
+                        
+                        tar = JSON.parse(localStorage.getItem("learnProgress"));
+
+                        tar.forEach(element => {
+                            gre +=  Number(element.end)
+                            re += element.totalEnd
+                            
+                        });
+                    }
+
+       document.getElementById("toBeLearned3").innerText = `To be learned: ${re}`
+       document.getElementById("learned3").innerText = `Learned: ${gre}`
+
+      
+    
+      
+      let workData = budgetData.workData
+      last_day_date = 
+           workData.workDays.length !== 0 ?
+           workData.workDays[workData.workDays.length - 1].date.substring(8, 10) : "00";
+      
+        const BOX = {
+        saveTime() {
+            localStorage.setItem("savedTime", timeInSeconds);
+            localStorage.setItem("lastTimestamp", Date.now()); // Save the exact close time
+            localStorage.setItem("PowerTime" , (timeInSeconds/3600).toFixed(2)) 
+        },
+        linearloadSavedData() {
+            
+            const savedData = JSON.parse(localStorage.getItem("POWER")) || POWER;
+            if (savedData.linearGraph) {
+                labels = savedData.linearGraph.labels || [];
+                incomeData = savedData.linearGraph.incomeData || [];
+                outcomeData = savedData.linearGraph.outcomeData || [];
+                cumulativeIncome = savedData.linearGraph.cumulativeIncome || 0;
+                cumulativeOutcome = savedData.linearGraph.cumulativeOutcome || 0;
+            }
+        },
+        linearSaveData() {
+    
+          POWER.linearGraph = {labels, incomeData, outcomeData, cumulativeIncome, cumulativeOutcome}
+
+            let power = JSON.parse(localStorage.getItem("POWER"));
+            if (power) {
+                power.linearGraph = {labels, incomeData, outcomeData, cumulativeIncome, cumulativeOutcome}; 
+            } else {
+                power = POWER
+            }
+            
+
+
+            localStorage.setItem('POWER', JSON.stringify(power));
+           
+        },
+        linearGetCurrentDate() {
+            const date = new Date();
+            const day = date.getDate();
+            const month = date.getMonth() + 1; // Months are 0-based
+            const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const weekDay = weekDays[date.getDay()];
+            return `${day}/${month} ${weekDay}`;
+        },
+        linearCreateChart() {
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: '', data: incomeData, borderColor: 'green', borderWidth: 3, tension: 0.4 },
+                        { label: '', data: outcomeData, borderColor: '#007BFF', borderWidth: 3, tension: 0.4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: { x: { ticks: { font: { size: 14 } } }, y: { ticks: { font: { size: 14 }, beginAtZero: true } } }
+                }
+            });
+        },
+        linearSetInitialValues() {
+
+            labels = [this.linearGetCurrentDate()];
+            incomeData = [startingPoint];
+            outcomeData = [startingPoint];
+            const power = JSON.parse(localStorage.getItem("POWER")) || POWER;
+            const a = power.linearGraph.income;
+            const b = power.pizzaGraph[monthName].expenses
+            b.length = 0;
+            power.linearGraph.cumulativeIncome = startingPoint;
+            power.linearGraph.cumulativeOutcome = startingPoint;
+            localStorage.setItem("POWER" , JSON.stringify(power));
+           
+            
+            cumulativeIncome = startingPoint;
+            cumulativeOutcome = startingPoint;
+            budgetData = POWER;
+            this.linearUpdateChart();
+            this.pizzaUpdateChart();
+            
+            this.linearSaveData();
+            const unex = JSON.parse(localStorage.getItem("POWER")) || POWER;
+        const totalt = unex.pizzaGraph[monthName].expenses
+        let countExpectAmount = 0;
+        let countUnexpectAmount = 0;
+        let countTotalAmount = 0;
+        totalt.forEach(element => {
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+         
+     
+        budgetData.workData = {
+        "hourlyRate": 20,
+        "workDays": [],
+        "totalEarned": 0,
+        "remainingBalance": 0
+    }
+        budgetData.currencyData = {
+        "balancePLN": document.getElementById("balancePLN").value,
+        "balanceMDL": document.getElementById("balanceMDL").value,
+        "balanceEUR": document.getElementById("balanceEUR").value,
+        "balanceUSD": document.getElementById("balanceUSD").value,
+        "ratePLN": document.getElementById("ratePLN").value,
+        "rateMDL": document.getElementById("rateMDL").value,
+        "rateEUR": document.getElementById("rateEUR").value,
+        "bank": "plnBank"
+    }
+
+
+
+
+
+        localStorage.setItem( "POWER",JSON.stringify(budgetData));
+        
+       
+        workData =  {
+            hourlyRate: 20,  
+            workDays: [],
+            totalEarned: 0,
+            remainingBalance: 0
+        };
+
+        
+         
+
+
+        BOX.barUpdateDisplay();
+
+
+        const UnexParagraph = document.getElementById("unexpected1");
+        UnexParagraph.innerText = `Expected ${countExpectAmount.toFixed(2)} Unexpected ${countUnexpectAmount.toFixed(2) || 0} Total ${countTotalAmount.toFixed(2)}`;
+
+        },
+        linearUpdateGraph( first , second , third) {
+              
+
+
+            
+            cumulativeIncome += (BOX.barAddWorkDay( first , second , third))
+          
+             
+            
+             
+
+
+            const actuallMoney = (second + third) || 0;
+            
+           let a ;
+
+           if (JSON.parse(localStorage.getItem("POWER")) !== null) {
+            a = JSON.parse(localStorage.getItem("POWER")).currencyData
+           } else {
+            a = POWER.currencyData;
+           }
+           
+
+           
+           let b = document.getElementById("balancePLN")
+
+           MainBankInSistem === "mdlBank" && (b = document.getElementById("balanceMDL") )
+           MainBankInSistem === "eurBank"&& (b = document.getElementById("balanceEUR") )
+           MainBankInSistem === "usdBank"&& (b = document.getElementById("balanceUSD") )
+
+           
+         
+           
+
+            if (third < 0) {
+                cumulativeOutcome += (second) / CurrentExchange  
+            } else {
+                cumulativeOutcome += (second + third) / CurrentExchange 
+            }
+            
+
+          
+
+             
+
+
+             if (MainBankInSistem === "mdlBank") {
+                a.balanceMDL = Number(a.balanceMDL) + (second + third)
+             b.value =  (Number(b.value) + (second + third));
+             } else if(MainBankInSistem === "eurBank") {
+                a.balanceEUR = Number(a.balanceEUR) + (second + third)
+             b.value =  (Number(b.value) + (second + third));
+             }else if(MainBankInSistem === "usdBank"){
+                a.balanceUSD = Number(a.balanceUSD) + (second + third)
+                b.value =  (Number(b.value) + (second + third));
+             }else{
+                a.balancePLN = Number(a.balancePLN) + (second + third)
+                b.value =  (Number(b.value) + (second + third));
+             }
+
+             
+             budgetData.currencyData = a
+
+             localStorage.setItem("POWER" , JSON.stringify(budgetData));
+            
+
+
+            
+            
+           // make it check the today's date So it will not add new day 2 times.
+           
+            last_day_date = 
+           workData.workDays.length !== 0 ?
+           workData.workDays[workData.workDays.length - 1].date.substring(8, 10) : "00";
+           
+
+          
+
+
+
+              
+           if (workData.workDays.length > 1 && graphsCoincidence) {
+            last_day_date = workData.workDays[workData.workDays.length - 2].date.substring(8, 10)
+            graphsCoincidence = !graphsCoincidence;
+           }
+
+           if (last_day_date === Day_Today) {
+              incomeData[incomeData.length - 1] = cumulativeIncome.toFixed(2);
+              outcomeData[outcomeData.length - 1] = cumulativeOutcome.toFixed(2);
+           } else {
+            labels.push(BOX.linearGetCurrentDate());
+            incomeData.push(cumulativeIncome.toFixed(2));
+            outcomeData.push(cumulativeOutcome.toFixed(2));  
+           }
+
+            BOX.linearUpdateChart();
+            BOX.linearSaveData();
+          
+        },
+        linearUpdateChart() {
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = incomeData;
+            myChart.data.datasets[1].data = outcomeData;
+            myChart.update();
+              cumulativeIncome = Number(cumulativeIncome)
+              cumulativeOutcome = Number(cumulativeOutcome)
+            document.getElementById('finalIncome').textContent = cumulativeIncome.toFixed(2);
+            document.getElementById('finalOutcome').textContent = cumulativeOutcome.toFixed(2);
+            
+        },
+        pizzaUpdateChart() {
+
+            
+            const total = budgetData.pizzaGraph[monthName].expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const labels = budgetData.pizzaGraph[monthName].expenses.map(expense => `${expense.category}: ${ expense.amount ? expense.amount.toFixed(2) : 0 }$ ${expense.currency}${expense.currency_name.slice(0, 3)} (${((expense.amount / total) * 100).toFixed(2)}%)`);
+            const amounts = budgetData.pizzaGraph[monthName].expenses.map(expense => expense.amount);
+            const ctx = document.getElementById('chart').getContext('2d');
+
+            if (window.myChart) window.myChart.destroy();
+
+            window.myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels.length ? labels : ["No expenses yet"],
+                    datasets: [{
+                        label: 'Expenses',
+                        data: amounts.length ? amounts : [1],
+                        backgroundColor: ["#FF5733", "#33FF57", "#3357FF", "#FF33A1", "#FFD700" , "#4083cb" , "#cb9340" , "#8ccb40" , "#cb4098" , "#40bfcb"],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    onClick: (event, elements) => {
+                        if (elements.length) {
+                            selectedExpenseIndex = elements[0].index;
+                            document.getElementById(`popup_${monthName}`).style.display = 'block';
+                        }
+                    }
+                }
+            });
+    },
+        pizzaCreateElements() {
+        const container = document.querySelector('body');
+        const divContainer = document.createElement('div');
+        divContainer.classList.add('container');
+        divContainer.ondblclick = BOX.pizzaScale_theGraph;
+        divContainer.id = `container`;
+        container.appendChild(divContainer);
+
+        const unex = JSON.parse(localStorage.getItem("POWER")) || POWER;
+        const totalt = unex.pizzaGraph[monthName].expenses;
+     ;
+
+         
+        
+        budgetData.pizzaGraph[monthName].expenses
+        .forEach(element => {
+            ExpectPln += element.expectedPln
+            ExpectMdl += element.expectedMdl
+            ExpectEur += element.expectedEur
+
+            UnexpectPln += element.unexpectedPln
+            UnexpectMdl += element.unexpectedMdl
+            UnexpectEur += element.unexpectedEur
+
+            totalEur += (element.expectedEur + element.unexpectedEur)
+            totalMdl += (element.expectedMdl + element.unexpectedMdl)
+            totalPln += (element.expectedPln + element.unexpectedPln)
+            
+
+           
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+
+
+
+        const Expected = document.createElement("div");
+        const gg = JSON.parse(localStorage.getItem('POWER')) || POWER;
+        Expected.innerText = 
+        `Exp ${countExpectAmount.toFixed(2)}$ ${ExpectPln.toFixed(2)}PLN ${ExpectMdl.toFixed(2)}MDL ${ExpectEur.toFixed(2)}EUR
+         Unex ${countUnexpectAmount.toFixed(2) || 0}$ ${UnexpectPln.toFixed(2)}PLN ${UnexpectMdl.toFixed(2)}MDL ${UnexpectEur.toFixed(2)}EUR
+         Tot ${countTotalAmount.toFixed(2)}$ ${totalPln.toFixed(2)}PLN ${totalMdl.toFixed(2)}MDL ${totalEur.toFixed(2)}EUR`;
+        Expected.id = "unexpected1";
+        divContainer.append(Expected);
+
+        const addExpenseBtn = document.createElement('button');
+        addExpenseBtn.classList.add('add-expense-btn');
+        addExpenseBtn.id = `addExpenseBtn`;
+        addExpenseBtn.textContent =`New ${monthName} expence` ;
+        
+        addExpenseBtn.onclick = BOX.pizzaOpenAddExpensePopup;
+        document.body.appendChild(addExpenseBtn);
+
+        const expensesPopupBtn = document.createElement('button');
+        expensesPopupBtn.classList.add('expenses-popup-btn');
+        expensesPopupBtn.textContent = "Existing expenses List";
+        expensesPopupBtn.onclick = BOX.pizzaOpenExpensesPopup;
+        document.body.appendChild(expensesPopupBtn);
+
+        const canvas = document.createElement('canvas');
+        canvas.id = 'chart';
+        divContainer.appendChild(canvas);
+
+        // Add Expense Popup
+        const addExpensePopup = document.createElement('div');
+        addExpensePopup.classList.add('popup');
+        addExpensePopup.id = `addExpensePopup`;
+        divContainer.appendChild(addExpensePopup);
+
+        const addExpenseTitle = document.createElement('h3');
+        addExpenseTitle.textContent = 'Add Expense';
+        addExpensePopup.appendChild(addExpenseTitle);
+
+        const expenseNameInput = document.createElement('input');
+        expenseNameInput.placeholder = 'Expense name';
+        expenseNameInput.id = `expenceName`;
+        addExpensePopup.appendChild(expenseNameInput);
+
+        const expenseAmountInput = document.createElement('input');
+        expenseAmountInput.id = 'expenseAmount';
+        expenseAmountInput.type = 'number';
+        expenseAmountInput.placeholder = ` - ${MainBankInSistem.substring(0, 3).toLocaleUpperCase()}`;
+        expenseAmountInput.oninput = BOX.changeBckgroundColor;
+       
+        addExpensePopup.appendChild(expenseAmountInput);
+
+        // New input fields
+        const input1 = document.createElement('input');
+        input1.placeholder = 'Income';
+        input1.id = "addInput1";
+        input1.type = "number";
+        addExpensePopup.appendChild(input1);
+
+        const input2 = document.createElement('input');
+        input2.placeholder = 'Hours';
+        input2.id = "addInput2";
+        input2.type = "number";
+        addExpensePopup.appendChild(input2);
+        
+
+        const input23 = document.createElement('input');
+        input23.placeholder = 'rate per Hour';
+        input23.id = "hourlyRate";
+        input23.type = "number";
+        input23.value = workData.hourlyRate;
+        addExpensePopup.appendChild(input23);
+
+
+        const addBtn = document.createElement('button');
+        addBtn.textContent = 'Add Expected';
+        addBtn.id = `add`;
+        addBtn.onclick =BOX.pizzaAddExpense;
+        addExpensePopup.appendChild(addBtn);
+
+        const unnBtn = document.createElement('button');
+        unnBtn.textContent = 'Add Unexpected';
+        unnBtn.id = `add`;
+        unnBtn.onclick = BOX.pizzaAddunexpectedExpense;
+        addExpensePopup.appendChild(unnBtn);
+
+        const cancelAddBtn = document.createElement('button');
+        cancelAddBtn.classList.add('cancel-btn');
+        cancelAddBtn.textContent = 'Cancel';
+        cancelAddBtn.id = `cancel`;
+        cancelAddBtn.onclick = BOX.pizzaCloseAddExpensePopup;
+        addExpensePopup.appendChild(cancelAddBtn);
+
+        // New Expenses Popup
+        const expensesPopup = document.createElement('div');
+        expensesPopup.classList.add('popup');
+        expensesPopup.id = `expensesPopup`;
+        divContainer.appendChild(expensesPopup);
+
+        const expensesTitle = document.createElement('h3');
+        expensesTitle.textContent = 'Expenses List';
+        expensesPopup.appendChild(expensesTitle);
+
+        const popup = document.createElement('div');
+        popup.classList.add('popup');
+        popup.id = `popup_${monthName}`;
+        divContainer.appendChild(popup);
+
+        const popupTitle = document.createElement('h3');
+        popupTitle.textContent = 'Update Expense';
+        popup.appendChild(popupTitle);
+
+        const updateAmountInput = document.createElement('input');
+        
+        updateAmountInput.id = `updateAmount`;
+        updateAmountInput.type = 'number';
+        updateAmountInput.placeholder = ` - ${MainBankInSistem.substring(0, 3).toLocaleUpperCase()}`;
+        updateAmountInput.oninput = BOX.changeBckgroundColor2;
+        popup.appendChild(updateAmountInput);
+
+        // New input fields
+        const input1Update = document.createElement('input');
+        input1Update.placeholder = 'Income';
+        input1Update.id = "updateInput1"
+        input1Update.type = "number";
+        popup.appendChild(input1Update);
+
+        const input2Update = document.createElement('input');
+        input2Update.placeholder = 'Hours';
+        input2Update.id = "updateInput2"
+        input2Update.type = "number";
+        popup.appendChild(input2Update);
+
+        const updateBtn = document.createElement('button');
+        updateBtn.textContent = 'Update Expected';
+        updateBtn.onclick = BOX.pizzaUpdateExpense;
+        updateBtn.id = `updateBtn`;
+        popup.appendChild(updateBtn);
+
+        // Add "Unexpected" button to the Update Popup
+        const unexpectedBtn = document.createElement('button');
+        unexpectedBtn.textContent = 'Update Unexpected';
+        unexpectedBtn.onclick = BOX.pizzaUnexpectedFunction;
+        popup.appendChild(unexpectedBtn);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('cancel-btn');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.id = `Delete`;
+        deleteBtn.onclick = BOX.pizzaDeleteExpense;
+        popup.appendChild(deleteBtn);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('cancel-btn');
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.id = `Cancel`;
+        cancelBtn.onclick =BOX.pizzaClosePopup;
+        popup.appendChild(cancelBtn);
+    },
+        pizzaScale_theGraph() {
+        const a = document.getElementById(`container`);
+        if (scalePizzaGraph) {
+            a.style.height = "50vh";
+            a.style.width = "22vw";
+            a.style.opacity = "0.3"
+            a.style.right = "0";
+            a.style.bottom = "2vh";
+            a.style.zIndex = "1"
+            scalePizzaGraph = !scalePizzaGraph;
+        } else {
+            a.style.height = "100vh";
+            a.style.width = "90vh";
+            a.style.right = "29%";
+            a.style.bottom = "0";
+            a.style.opacity = "1"
+            a.style.zIndex = "2"
+            scalePizzaGraph = !scalePizzaGraph;
+        }
+    },
+        barSkale(){
+            const a = document.getElementById("ChartBarContainer");
+        if (scalePizzaGraph) {
+            a.style.height = "49vh";
+            a.style.width = "45vw";
+            a.style.right = "0";
+            a.style.top = "0"
+            a.style.zIndex = "1";
+            scalePizzaGraph = !scalePizzaGraph;
+        } else {
+            a.style.height = "100vh";
+            a.style.width = "100vw";
+            a.style.zIndex = "2"
+            scalePizzaGraph = !scalePizzaGraph;
+            
+        }
+     
+    },
+        improveHoursScale(){
+            const a = document.getElementById("learn-input-container");
+        if (scalePizzaGraph) {
+            a.style.height = "49vh";
+            a.style.width = "45vw";
+            a.style.left = "0";
+            a.style.bottom = "0"
+            a.style.zIndex = "1";
+            scalePizzaGraph = !scalePizzaGraph;
+        } else {
+            a.style.height = "99vh";
+            a.style.width = "99vw";
+            a.style.zIndex = "2"
+            scalePizzaGraph = !scalePizzaGraph;
+            
+        }
+        },
+        toBeLearnedScale(){
+            const a = document.getElementById("learn-input-container2");
+        if (scalePizzaGraph) {
+            a.style.height = "49vh";
+            a.style.width = "45vw";
+            a.style.left = "0";
+            a.style.bottom = "0"
+            a.style.zIndex = "1";
+            scalePizzaGraph = !scalePizzaGraph;
+        } else {
+            a.style.height = "100vh";
+            a.style.width = "99vw";
+            a.style.zIndex = "2"
+            scalePizzaGraph = !scalePizzaGraph;
+            
+        }
+        },
+        linearScale(){
+            const a = document.getElementById("inearcontainer2");
+        if (scalePizzaGraph) {
+            a.style.height = "49vh";
+            a.style.width = "45vw";
+            a.style.right = "0";
+            a.style.bottom = "0"
+            a.style.zIndex = "0";
+            scalePizzaGraph = !scalePizzaGraph;
+        } else {
+            a.style.height = "100vh";
+            a.style.width = "99vw";
+            a.style.zIndex = "4"
+            scalePizzaGraph = !scalePizzaGraph;
+            
+        }
+
+    },
+        pizzaOpenExpensesPopup() {
+        const expensesPopup = document.getElementById(`expensesPopup`);
+        expensesPopup.innerHTML = '<h3>Expenses List</h3>';  // Clear previous buttons
+        
+        const expenses = budgetData.pizzaGraph[monthName].expenses;
+        if (expenses.length === 0) {
+            expensesPopup.innerHTML += '<p>No expenses yet.</p>';
+        } else {
+            expenses.forEach((expense, index) => {
+                const expenseBtn = document.createElement('button');
+                expenseBtn.textContent = expense.category;
+                expenseBtn.onclick = () => BOX.pizzaOpenExpenseUpdatePopup(index);
+                expensesPopup.appendChild(expenseBtn);
+            });
+        }
+        expensesPopup.style.display = 'block';
+    },
+        pizzaCloseExpensesPopup() {
+        document.getElementById(`expensesPopup`).style.display = 'none';
+        },
+        pizzaOpenExpenseUpdatePopup(index) {
+        selectedExpenseIndex = index;
+        const expense = budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex];
+        const updateAmountInput = document.getElementById(`updateAmount`);
+        updateAmountInput.value = expense.amount; // Set current amount
+        
+        document.getElementById(`popup_${monthName}`).style.display = 'block';
+    },
+        pizzaUpdateExpense() {
+    const additionalAmount = parseFloat(document.getElementById(`updateAmount`).value) || 0;
+    const input1Element = document.getElementById("updateInput1") || 0;
+    const input2Element = document.getElementById("updateInput2") || 0;
+    
+    const input1Value = input1Element.value.trim() === "" ? 0 : parseFloat(input1Element.value);
+    const input2Value = input2Element.value.trim() === "" ? 0 : parseFloat(input2Element.value);
+
+    // Log the processed values
+
+    // Now proceed with the expense update logic
+    if (!isNaN(additionalAmount) && additionalAmount < 0 && selectedExpenseIndex !== null) {
+        // Add the new amount and update the expected amount
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].amount += additionalAmount / CurrentExchange;
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].expectedAmount += additionalAmount / CurrentExchange;
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].currency += additionalAmount;
+
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].expectedUsd += MainBankInSistem === "usdBank" ? additionalAmount : 0;
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].expectedEur += MainBankInSistem === "eurBank" ? additionalAmount : 0;
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].expectedMdl += MainBankInSistem === "mdlBank" ? additionalAmount : 0;
+        budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].expectedPln += MainBankInSistem === "plnBank" ? additionalAmount : 0;
+        
+        localStorage.setItem('POWER', JSON.stringify(budgetData));
+    
+
+
+
+
+        BOX.linearUpdateGraph(input2Value , additionalAmount , input1Value );
+       
+
+        // You can now do something with input1Value and input2Value if needed:
+        // For example, save them to the expense item or perform any other logic here.
+
+        // Update the chart and close the popup
+       BOX.pizzaUpdateChart();
+       BOX.pizzaClosePopup();
+       BOX.pizzaCloseAddExpensePopup()
+    } else {
+        BOX.linearUpdateGraph(input2Value , additionalAmount , input1Value );
+       
+        BOX.pizzaClosePopup();
+        BOX.pizzaCloseAddExpensePopup()
+    }
+        ExpectPln = 0;
+        ExpectMdl = 0;
+        ExpectEur = 0;
+
+        totalEur = 0;
+        totalMdl = 0;
+        totalPln = 0;
+
+        countUnexpectAmount = 0;
+        countTotalAmount = 0;
+        countExpectAmount = 0;
+        
+        budgetData.pizzaGraph[monthName].expenses
+        .forEach(element => {
+            ExpectPln += element.expectedPln
+            ExpectMdl += element.expectedMdl
+            ExpectEur += element.expectedEur
+
+            totalEur += (element.expectedEur + element.unexpectedEur)
+            totalMdl += (element.expectedMdl + element.unexpectedMdl)
+            totalPln += (element.expectedPln + element.unexpectedPln)
+            
+
+           
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+
+        
+        
+        const UnexParagraph = document.getElementById("unexpected1");
+        UnexParagraph.innerText = 
+        `Exp ${countExpectAmount.toFixed(2)}$ ${ExpectPln.toFixed(2)}PLN ${ExpectMdl.toFixed(2)}MDL ${ExpectEur.toFixed(2)}EUR
+         Unex ${countUnexpectAmount.toFixed(2) || 0}$ ${UnexpectPln.toFixed(2)}PLN ${UnexpectMdl.toFixed(2)}MDL ${UnexpectEur.toFixed(2)}EUR
+         Tot ${countTotalAmount.toFixed(2)}$ ${totalPln.toFixed(2)}PLN ${totalMdl.toFixed(2)}MDL ${totalEur.toFixed(2)}EUR`;
+},
+        pizzaDeleteExpense() {
+        if (selectedExpenseIndex !== null) {
+            budgetData.pizzaGraph[monthName].expenses.splice(selectedExpenseIndex, 1);
+            localStorage.setItem('POWER', JSON.stringify(budgetData));
+            
+           BOX.pizzaUpdateChart();
+           BOX.pizzaClosePopup();
+        }
+        
+    },
+        pizzaUnexpectedFunction() {
+    const input1Element = document.getElementById("updateInput1") || 0;
+    const input2Element = document.getElementById("updateInput2") || 0;
+
+    const input1Value = input1Element.value.trim() === "" ? 0 : parseFloat(input1Element.value);
+    const input2Value = input2Element.value.trim() === "" ? 0 : parseFloat(input2Element.value);
+
+    // Log the processed values
+    
+
+        const additionalAmount = parseFloat(document.getElementById(`updateAmount`).value) || 0;
+        if (!isNaN(additionalAmount) && additionalAmount < 0 && selectedExpenseIndex !== null) {
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].amount += additionalAmount / CurrentExchange;
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].unexpectedAmount += additionalAmount / CurrentExchange;
+
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].currency += additionalAmount;
+
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].unexpectedUsd += MainBankInSistem === "usdBank" ? additionalAmount : 0;
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].unexpectedEur += MainBankInSistem === "eurBank" ? additionalAmount : 0;
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].unexpectedMdl += MainBankInSistem === "mdlBank" ? additionalAmount : 0;
+            budgetData.pizzaGraph[monthName].expenses[selectedExpenseIndex].unexpectedPln += MainBankInSistem === "plnBank" ? additionalAmount : 0;
+
+
+
+
+            localStorage.setItem('POWER', JSON.stringify(budgetData));
+            localStorage.setItem(monthName, JSON.stringify(budgetData));
+            BOX.linearUpdateGraph(input2Value , additionalAmount , input1Value );
+           BOX.pizzaUpdateChart();
+           BOX.pizzaClosePopup();
+           BOX.pizzaCloseAddExpensePopup()
+        } else {
+            BOX.linearUpdateGraph(input2Value , additionalAmount , input1Value );
+            BOX.pizzaUpdateChart();
+            BOX.pizzaClosePopup();
+            BOX.pizzaCloseAddExpensePopup()
+        }
+        UnexpectPln = 0;
+     UnexpectMdl = 0;
+     UnexpectEur = 0;
+
+     totalEur = 0;
+     totalMdl = 0;
+     totalPln = 0;
+
+     countUnexpectAmount = 0;
+     countTotalAmount = 0;
+     countExpectAmount = 0;
+         
+    budgetData.pizzaGraph[monthName].expenses
+       .forEach(element => {
+
+        
+        UnexpectPln += element.unexpectedPln
+        UnexpectMdl += element.unexpectedMdl
+        UnexpectEur += element.unexpectedEur
+
+        totalEur += (element.expectedEur + element.unexpectedEur)
+            totalMdl += (element.expectedMdl + element.unexpectedMdl)
+            totalPln += (element.expectedPln + element.unexpectedPln)
+           
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+
+
+
+
+       
+        
+        const UnexParagraph = document.getElementById("unexpected1");
+        UnexParagraph.innerText = 
+        `Exp ${countExpectAmount.toFixed(2)}$ ${ExpectPln.toFixed(2)}PLN ${ExpectMdl.toFixed(2)}MDL ${ExpectEur.toFixed(2)}EUR
+         Unex ${countUnexpectAmount.toFixed(2) || 0}$ ${UnexpectPln.toFixed(2)}PLN ${UnexpectMdl.toFixed(2)}MDL ${UnexpectEur.toFixed(2)}EUR
+         Tot ${countTotalAmount.toFixed(2)}$ ${totalPln.toFixed(2)}PLN ${totalMdl.toFixed(2)}MDL ${totalEur.toFixed(2)}EUR`;
+    },
+        pizzaClosePopup() {
+        document.getElementById(`popup_${monthName}`).style.display = 'none';
+       },
+        pizzaOpenAddExpensePopup() {
+        document.getElementById(`addExpensePopup`).style.display = 'block';
+       },
+        pizzaCloseAddExpensePopup() {
+        document.getElementById(`addExpensePopup`).style.display = 'none';
+        },
+        pizzaAddExpense() {
+          
+    const input1Element = document.getElementById("addInput1");
+    const input2Element = document.getElementById("addInput2");
+    const incomeThatRises = input2Element.value || 0;
+
+    const input1Value = input1Element.value.trim() === "" ? 0 : parseFloat(input1Element.value);
+    const input2Value = input2Element.value.trim() === "" ? 0 : parseFloat(input2Element.value);
+
+    // Log the processed values
+
+        const name = document.getElementById(`expenceName`).value;
+        const amount = parseFloat(document.getElementById(`expenseAmount`).value) || 0;
+
+       const exchanged_amount = amount/CurrentExchange
+
+
+        if (amount >= 0 || name) {
+           
+            if (name && !isNaN(amount) && amount < 0) {
+            budgetData.pizzaGraph[monthName].expenses.push({
+                 category: name, amount: exchanged_amount ,
+                   expectedAmount: exchanged_amount ,
+                   unexpectedAmount: 0,
+                    expectedUsd: MainBankInSistem === "usdBank" ? amount : 0 ,
+                    expectedEur: MainBankInSistem === "eurBank" ? amount : 0 ,
+                    expectedMdl: MainBankInSistem === "mdlBank" ? amount: 0  ,
+                    expectedPln: MainBankInSistem === "plnBank" ? amount : 0  ,
+                    unexpectedUsd:  0 ,
+                    unexpectedEur:  0 ,
+                    unexpectedMdl:  0 ,
+                    unexpectedPln:  0 ,
+                     currency: amount , 
+                     currency_name: MainBankInSistem,
+                  });
+                  
+            localStorage.setItem('POWER', JSON.stringify(budgetData));
+            BOX.linearUpdateGraph(input2Value , amount , input1Value )
+           BOX.pizzaUpdateChart();;
+           BOX.pizzaCloseAddExpensePopup();
+        } else {
+            
+            BOX.linearUpdateGraph(input2Value , amount , input1Value );
+            BOX.pizzaCloseAddExpensePopup();
+        }
+        ExpectPln = 0;
+        ExpectMdl = 0;
+        ExpectEur = 0;
+
+        totalEur = 0;
+        totalMdl = 0;
+        totalPln = 0;
+
+        countUnexpectAmount = 0;
+        countTotalAmount = 0;
+        countExpectAmount = 0;
+        
+        budgetData.pizzaGraph[monthName].expenses
+        .forEach(element => {
+            ExpectPln += element.expectedPln
+            ExpectMdl += element.expectedMdl
+            ExpectEur += element.expectedEur
+
+            totalEur += (element.expectedEur + element.unexpectedEur)
+            totalMdl += (element.expectedMdl + element.unexpectedMdl)
+            totalPln += (element.expectedPln + element.unexpectedPln)
+            
+
+           
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+
+
+        
+      
+
+        
+        
+        const UnexParagraph = document.getElementById("unexpected1");
+        UnexParagraph.innerText = 
+        `Exp ${countExpectAmount.toFixed(2)}$ ${ExpectPln.toFixed(2)}PLN ${ExpectMdl.toFixed(2)}MDL ${ExpectEur.toFixed(2)}EUR
+         Unex ${countUnexpectAmount.toFixed(2) || 0}$ ${UnexpectPln.toFixed(2)}PLN ${UnexpectMdl.toFixed(2)}MDL ${UnexpectEur.toFixed(2)}EUR
+         Tot ${countTotalAmount.toFixed(2)}$ ${totalPln.toFixed(2)}PLN ${totalMdl.toFixed(2)}MDL ${totalEur.toFixed(2)}EUR`;
+        } else {
+           alert("Name is required when you add new expences !!!")
+        }
+            
+      
+        
+
+    },
+        pizzaAddunexpectedExpense() {
+        const input1Element = document.getElementById("addInput1") || 0;
+        const input2Element = document.getElementById("addInput2") || 0;
+
+        const input1Value = input1Element.value.trim() === "" ? 0 : parseFloat(input1Element.value);
+        const input2Value = input2Element.value.trim() === "" ? 0 : parseFloat(input2Element.value);
+        
+        // Log the processed values
+        
+        const unex = JSON.parse(localStorage.getItem("POWER")) || POWER;
+        const name = document.getElementById(`expenceName`).value;
+        const amount = parseFloat(document.getElementById(`expenseAmount`).value) || 0;
+        const exchanged_amount = amount/CurrentExchange
+
+        if (amount >= 0 || name) {
+
+        if (name && !isNaN(amount) && amount < 0) {
+            budgetData.pizzaGraph[monthName].expenses.push({
+                 category: name, amount: exchanged_amount ,
+                   expectedAmount: 0 ,
+                   unexpectedAmount: exchanged_amount,
+                    expectedUsd:  0 ,
+                    expectedEur:  0 ,
+                    expectedMdl:  0  ,
+                    expectedPln:  0  ,
+                    unexpectedUsd: MainBankInSistem === "usdBank" ? amount : 0 ,
+                    unexpectedEur:  MainBankInSistem === "eurBank" ? amount : 0 ,
+                    unexpectedMdl: MainBankInSistem === "mdlBank" ? amount: 0 ,
+                    unexpectedPln: MainBankInSistem === "plnBank" ? amount : 0 ,
+                     currency: amount , 
+                     currency_name: MainBankInSistem,
+                  });
+            localStorage.setItem('POWER', JSON.stringify(budgetData));
+            localStorage.setItem(monthName, JSON.stringify(budgetData));
+            BOX.linearUpdateGraph(input2Value , amount , input1Value );
+            BOX.pizzaUpdateChart();
+           BOX.pizzaCloseAddExpensePopup();
+        } else {
+            BOX.pizzaUpdateChart();
+            BOX.linearUpdateGraph(input2Value , amount , input1Value );
+            BOX.pizzaCloseAddExpensePopup();
+        }
+        
+        
+       
+        const unex = JSON.parse(localStorage.getItem("POWER")) || POWER;
+        const totalt = unex.pizzaGraph[monthName].expenses;
+     ;
+
+     UnexpectPln = 0;
+     UnexpectMdl = 0;
+     UnexpectEur = 0;
+
+     totalEur = 0;
+     totalMdl = 0;
+     totalPln = 0;
+
+     countUnexpectAmount = 0;
+     countTotalAmount = 0;
+     countExpectAmount = 0;
+         
+    budgetData.pizzaGraph[monthName].expenses
+       .forEach(element => {
+
+        
+        UnexpectPln += element.unexpectedPln
+        UnexpectMdl += element.unexpectedMdl
+        UnexpectEur += element.unexpectedEur
+
+        totalEur += (element.expectedEur + element.unexpectedEur)
+            totalMdl += (element.expectedMdl + element.unexpectedMdl)
+            totalPln += (element.expectedPln + element.unexpectedPln)
+           
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount
+        });
+
+
+
+
+       
+        
+        const UnexParagraph = document.getElementById("unexpected1");
+        UnexParagraph.innerText = 
+        `Exp ${countExpectAmount.toFixed(2)}$ ${ExpectPln.toFixed(2)}PLN ${ExpectMdl.toFixed(2)}MDL ${ExpectEur.toFixed(2)}EUR
+         Unex ${countUnexpectAmount.toFixed(2) || 0}$ ${UnexpectPln.toFixed(2)}PLN ${UnexpectMdl.toFixed(2)}MDL ${UnexpectEur.toFixed(2)}EUR
+         Tot ${countTotalAmount.toFixed(2)}$ ${totalPln.toFixed(2)}PLN ${totalMdl.toFixed(2)}MDL ${totalEur.toFixed(2)}EUR`;
+
+    }else {
+        alert("name is required")
+    }
+    },
+        barUpdateDisplay() {
+           BOX.barDisplayWorkDays();
+           BOX.barUpdateChart();
+           
+        
+          
+           
+        },
+        barDisplayWorkDays() {
+            const dayListElement = document.getElementById("dayList");
+            dayListElement.innerHTML = ""; // Clear current list
+
+            // Show only the last 31 days
+            const last31Days = workData.workDays.slice(-31);
+            last31Days.forEach((workDay) => {
+                const dayElement = document.createElement("div");
+                dayElement.classList.add("day-item");
+
+                   
+                const formatDate = (date) => {
+                    const day = date.getDate(); // Get day of the month
+                    const month = date.getMonth() + 1; // Get month (0-based, so +1)
+                    
+                    const options = { weekday: 'long' }; 
+                    const weekday = date.toLocaleDateString('en-US', options); // Get full weekday name
+
+                    return `${month}/${day}_${weekday}`;
+                        };
+
+                        const today = new Date();
+                        
+
+
+
+
+                        function formatDate2(isoString) {
+                            const date = new Date(isoString);
+                            
+                            // Extract month and day
+                            const month = date.getMonth() + 1; // Months are zero-based
+                            const day = date.getDate();
+
+                            // Extract weekday name
+                            const weekday = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(date);
+                            
+                            return `${month}/${day}_${weekday}`;
+                        }
+
+
+                const dayDate = formatDate2(workDay.date);
+                
+                dayElement.innerHTML = `
+                    <span class="ddate">${dayDate}
+                        ${workDay.salary} ${workDay.salaryDigit}
+                        </span>
+                    <span class="earned">Hours: ${workDay.hoursWorked}</span>
+                    <span class="earned">Work ${workDay.earnedAmount.toFixed(2)}${workDay.currency}</span>
+                    <span class="earned">Income ${workDay.income.toFixed(2)}${workDay.currency}</span>
+                    <span class="spent">Spent: ${workDay.expenses.toFixed(2)}${workDay.currency}</span>
+                    <span class="remaining">Remaining: ${workDay.remainingBalance.toFixed(2)}${workDay.currency}</span>
+                `;
+                dayListElement.prepend(dayElement);
+                
+                const MonNumber = Number(workDay.month_number);
+
+                if (MonNumber === MonthNow) {
+                    currentMonthHours += workDay.hoursWorked
+                    MoneyThisMonth += (workDay.hoursWorked * workDay.hourlyRate)
+                } else if ((MonNumber + 1) === MonNumber) {
+                    previousMonthHours += workDay.hoursWorked
+                    MoneyLastMonth += (workDay.hoursWorked * workDay.hourlyRate)
+                }
+                
+              
+              
+                
+            });
+        },
+        barAddWorkDay(hours , expences , theIncome) {
+
+            
+          
+           
+            
+            const hourlyRate = parseFloat(document.getElementById("hourlyRate").value) || 25;
+            const hoursWorked =  hours;
+            const dailyExpenses =  -expences;
+               
+         
+
+            // Store the hourly rate in localStorage for future use
+            workData.hourlyRate = hourlyRate;
+
+            let earnedAmount = hourlyRate * hoursWorked;
+            let earned2 = (Number(hourlyRate)/CurrentExchange) * Number(hoursWorked) 
+            const remainingBalance = earnedAmount - (dailyExpenses);
+            const remaining2 = earned2 + ((theIncome - dailyExpenses) / CurrentExchange) ;
+            const today = new Date();
+
+            
+
+           
+            
+            
+              
+
+           
+             const currentMonth = new Date().getMonth() + 1; // Get month (1-12)
+             const formattedMonth = currentMonth.toString().padStart(2, '0'); 
+
+             currentMonthHours += hoursWorked
+             
+
+              
+             
+             
+
+                 let the_day_currency = "USD"
+               if (MainBankInSistem === "plnBank") {
+                the_day_currency = "PLN"
+               } else if(MainBankInSistem === "mdlBank") {
+                the_day_currency = "MDL"
+               }else if(MainBankInSistem === "plnBank"){
+                the_day_currency = "PLN"
+               }
+
+               
+              
+            const workDay = {
+                date: today.toISOString(),
+                hoursWorked,
+                remaining2,
+                earnedAmount,
+                expenses: dailyExpenses,
+                remainingBalance,
+                income: 0,
+                salary: "",
+                salaryDigit: 0,
+                month_number: Number(formattedMonth),
+                day_number: new Date().getDate(),
+                hourlyRate,
+                currency: the_day_currency,
+                the_year: new Date().getFullYear()
+            };
+
+            document.getElementById("MonthHours").innerText =
+              `Previous Month hours: ${previousMonthHours} : ${MoneyLastMonth} PLN
+               Current Month hurs: ${currentMonthHours} : ${MoneyThisMonth} PLN`
+            
+            
+            workDay.income = theIncome;
+            let rrrem = remainingBalance + theIncome;
+            let rem2 = remaining2 
+
+            workDay.remainingBalance = rrrem;
+            // Update workData
+
+           // make it check the today's date So it will not add new day 2 times.
+
+           const last_day_date = 
+           workData.workDays.length !== 0 ?
+           workData.workDays[workData.workDays.length - 1].date.substring(8, 10) : "00";
+           const Day_Today = today.toISOString().substring(8, 10);
+
+
+           let sbar = 0;
+        budgetData.workData.workDays.forEach(element => {
+            sbar +=  element.hoursWorked;
+        });
+
+          sbar += hours;
+         
+        
+       document.getElementById("workedHurs").innerText = `Job hours: ${sbar}`
+       
+
+           if (last_day_date === Day_Today) {
+            const lastDayItem = workData.workDays[workData.workDays.length - 1];
+            lastDayItem.date = today.toISOString();
+            lastDayItem.hoursWorked += hoursWorked;
+            lastDayItem.earnedAmount += earnedAmount;
+            lastDayItem.expenses+= dailyExpenses;
+            lastDayItem.remainingBalance += rrrem;
+            lastDayItem.income += theIncome;
+            lastDayItem.remaining2 += remaining2
+
+
+            budgetData.learnStore.greenData3[budgetData.learnStore.greenData3.length - 1] = Number((timeInSeconds/3600).toFixed(2))
+            budgetData.learnStore.redData3[budgetData.learnStore.redData3.length - 1] = sbar;    
+            localStorage.setItem("POWER" , JSON.stringify(budgetData));
+
+           } else {
+            workData.workDays.push(workDay);
+            workData.totalEarned += earnedAmount;
+            workData.remainingBalance += rrrem ;
+            graphsCoincidence = !graphsCoincidence;
+
+
+            budgetData.learnStore.greenData3.push(Number((timeInSeconds/3600).toFixed(2)))
+            budgetData.learnStore.redData3.push(sbar)
+            budgetData.learnStore.labels3.push(getCurrentDate())
+            localStorage.setItem("POWER" , JSON.stringify(budgetData));
+
+            LEARN.updateChart1();
+           }
+
+
+           BOX.saveTime();
+           LEARN.UpdateJustChart()
+           document.getElementById("selfImprovement").innerText =  `Improovement hours: ${budgetData.learnStore.greenData3[budgetData.learnStore.greenData3.length -1]}`
+          
+
+
+
+
+            
+            if (expences > 0) {
+                
+                alert("Did you really get the salary?")
+                rrrem = 0;
+                rem2 = 0;
+                workDay.salaryDigit = -workDay.expenses
+                workDay.expenses = -workDay.expenses;
+                workDay.salary = "Salary";
+            } 
+             
+
+            // Save updated data to localStorage
+
+            budgetData.workData = workData;
+            localStorage.setItem('POWER' , JSON.stringify(budgetData));
+        
+
+
+            const unex = JSON.parse(localStorage.getItem("POWER")) || POWER;
+              const totalt = unex.pizzaGraph[monthName].expenses;
+               let countExpectAmount = 0;
+              let countUnexpectAmount = 0;
+             let countTotalAmount = 0;
+           totalt.forEach(element => {
+          countExpectAmount += element.expectedAmount;
+          countUnexpectAmount += element.unexpectedAmount;
+          countTotalAmount += element.amount;
+        });
+
+
+        
+
+           BOX.barUpdateDisplay();
+           BOX.pizzaCloseExpensesPopup();
+           
+          return rem2
+        },
+        barUpdateChart() {
+            const labels = workData.workDays.slice(-31).map(workDay => new Date(workDay.date).toLocaleDateString());
+            const data = workData.workDays.slice(-31).map(workDay => workDay.remaining2 );
+
+            const ctx = document.getElementById('chartBar').getContext('2d');
+
+
+                if (window.chartInstance) {
+                window.chartInstance.destroy(); // Destroy previous chart to prevent stacking charts
+            }
+
+            window.chartInstance = new Chart(ctx, {
+                type: 'bar', // Bar chart
+                data: {
+                    labels: labels.length ? labels : ["No data yet"],
+                    datasets: [{
+                        label: '',
+                        data: data.length ? data : [0],
+                        backgroundColor: "#4CAF50",
+                        borderColor: "#4CAF50",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return 'Remaining Balance: $' + tooltipItem.raw.toFixed(2);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Amount ($)'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        },
+        MonthSwicher() {
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let currentMonthIndex = new Date().getMonth();
+        
+        const monthElement = document.getElementById("month");
+        const updateMonth = () => {
+            monthElement.classList.add("fade");
+            setTimeout(() => {
+                monthElement.textContent = months[currentMonthIndex];
+                monthElement.classList.remove("fade");
+            }, 200);
+            
+              const a =  document.querySelector('.container');
+              const b = document.getElementById("unexpected1");
+              const c = document.querySelector('.add-expense-btn')
+              const d = document.querySelector('.expenses-popup-btn')
+              monthName = months[currentMonthIndex]
+              b.remove();
+              a.remove();
+              c.remove();
+              d.remove();
+              BOX.pizzaCreateElements();
+              BOX.pizzaUpdateChart();
+           
+        };
+        
+        document.getElementById("prev").addEventListener("click", () => {
+            currentMonthIndex = (currentMonthIndex - 1 + 12) % 12;
+            updateMonth();
+        });
+        
+        document.getElementById("next").addEventListener("click", () => {
+            currentMonthIndex = (currentMonthIndex + 1) % 12;
+            updateMonth();
+        });
+        
+        updateMonth();
+        
+      },
+        currencyCalculateTotal() {
+            let balancePLN = parseFloat(document.getElementById("balancePLN").value) || 0;
+            let balanceMDL = parseFloat(document.getElementById("balanceMDL").value) || 0;
+            let balanceEUR = parseFloat(document.getElementById("balanceEUR").value) || 0;
+            let balanceUSD = parseFloat(document.getElementById("balanceUSD").value) || 0;
+
+            let ratePLN = parseFloat(document.getElementById("ratePLN").value) || 1;
+            let rateMDL = parseFloat(document.getElementById("rateMDL").value) || 1;
+            let rateEUR = parseFloat(document.getElementById("rateEUR").value) || 1;
+            let rateUSD = 1;
+
+            let totalUSD = (balancePLN / ratePLN) + (balanceMDL / rateMDL) + (balanceEUR / rateEUR) + balanceUSD;
+
+            document.getElementById("totalPLN").innerText = "Total in PLN: " + (totalUSD * ratePLN).toFixed(2);
+            startingPoint = (totalUSD).toFixed(2);
+            BOX.CalculateAverageSpendings(startingPoint)
+            document.getElementById("totalMDL").innerText = "Total in MDL: " + (totalUSD * rateMDL).toFixed(2);
+            document.getElementById("totalEUR").innerText = "Total in EUR: " + (totalUSD * rateEUR).toFixed(2);
+            document.getElementById("totalUSD").innerText = "Total in USD: " + totalUSD.toFixed(2);
+           BOX.currencySaveData();
+           const balance = Number((totalUSD).toFixed(2))
+
+
+
+           const abba = (myChart.data.datasets[1].data[myChart.data.datasets[1].data.length - 1]);
+           const stalll = (abba - balance).toFixed(2) || 3333;
+           let ga = (abba - balance);
+           if (!abba) {
+            ga = 0;
+           }
+        
+           if (Math.round(abba - balance) > 0) {
+            
+            document.getElementById("motMaching").innerText = `Difference: ${ga.toFixed(2) || 0}
+             set an expence and then
+             add to the bank account`
+           } else if(Math.round(abba - balance) < 0) {
+           document.getElementById("motMaching").innerText = `Difference: ${ga.toFixed(2) || 0}
+             set an income and then
+             subtract it from the banckaccount`
+           }else{
+            document.getElementById("motMaching").innerText = `Difference: ${ga.toFixed(2) || 0}`
+           }
+
+           
+           
+        },
+        currencySaveData() {
+            let data = {
+                balancePLN: Number(document.getElementById("balancePLN").value).toFixed(2),
+                balanceMDL: Number(document.getElementById("balanceMDL").value).toFixed(2) ,
+                balanceEUR: Number(document.getElementById("balanceEUR").value).toFixed(2) ,
+                balanceUSD: Number(document.getElementById("balanceUSD").value).toFixed(2) ,
+                ratePLN: document.getElementById("ratePLN").value,
+                rateMDL: document.getElementById("rateMDL").value,
+                rateEUR: document.getElementById("rateEUR").value,
+                bank: MainBankInSistem
+            };
+            budgetData.currencyData = data;
+            localStorage.setItem('POWER' , JSON.stringify(budgetData));
+            
+        },
+        currencyLoadData() {
+            
+            let data;
+
+            if (JSON.parse(localStorage.getItem("POWER")) !== null) {
+                data = JSON.parse(localStorage.getItem("POWER")).currencyData
+            } else {
+               data = POWER.currencyData; 
+            }
+            
+            if (data) {
+                document.getElementById("balancePLN").value = data.balancePLN || "";
+                document.getElementById("balanceMDL").value = data.balanceMDL || "";
+                document.getElementById("balanceEUR").value = data.balanceEUR || "";
+                document.getElementById("balanceUSD").value = data.balanceUSD || "";
+                document.getElementById("ratePLN").value = data.ratePLN || "";
+                document.getElementById("rateMDL").value = data.rateMDL || "";
+                document.getElementById("rateEUR").value = data.rateEUR || "";
+            }
+        },
+        CalculateAverageSpendings( go ) {
+            function daysBetween(date1, date2) {
+            // Convert both date strings to Date objects
+            let d1 = new Date(date1);
+            let d2 = new Date(date2);
+
+            // Calculate the difference in milliseconds
+            let diffTime = Math.abs(d2 - d1);
+
+            // Convert milliseconds to days
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+            // const sss = workData.workDays[0].date || "2025-02-03T14:35:15.607Z"
+            let sss = "2025-02-06T07:07:07.694Z"
+            if (workData.workDays.length !== 0) {
+                sss = workData.workDays[0].date
+            }
+
+            const unex = JSON.parse(localStorage.getItem("POWER")) || POWER; 
+            const totalt = unex.pizzaGraph[monthName].expenses
+            let countTotalAmount = 0;
+
+            totalt.forEach(element => {
+                countTotalAmount += element.amount
+                });
+            
+       // Example usage
+
+
+         function averageMonthlySpending(days, totalSpent) {
+const daysInMonth = 30.4375; // Average days in a month (365.25 / 12)
+           console.log(` ${days} days from ${sss}`)
+// Calculate the daily spending rate
+let dailySpending = totalSpent / days;
+
+// Estimate the monthly spending
+let monthlySpending = dailySpending * daysInMonth;
+
+return monthlySpending.toFixed(2); // Return result rounded to 2 decimal places
+}
+         const AverageMoneySpent = averageMonthlySpending(daysBetween(sss, new Date().toISOString()), -countTotalAmount);
+        
+          // Example usage
+           // Output: Estimated monthly spending
+         
+
+           function calculateSustainability(monthlySpending, currentSavings) {
+
+    if (monthlySpending <= 0) {
+        document.getElementById("sustaining").innerText = "Monthly spending must be greater than zero."
+        return;
+    }
+    
+    if (currentSavings <= 0) {
+         document.getElementById("sustaining").innerText = 
+      "You have no savings, so you can't sustain your lifestyle."
+        
+        return;
+    }
+
+    // Calculate the number of full months
+    let months = Math.floor(currentSavings / monthlySpending);
+    
+    // Calculate the remaining amount after full months
+    let remainingMoney = currentSavings % monthlySpending;
+    
+    // Convert remaining money to days (assuming 30 days per month for simplicity)
+    let days = Math.floor((remainingMoney / monthlySpending) * 30);
+
+    // Get today's date
+    let today = new Date();
+
+    // Calculate the end date
+    let endDate = new Date(today);
+    endDate.setMonth(endDate.getMonth() + months);
+    endDate.setDate(endDate.getDate() + days);
+
+    // Format the end date
+    let options = { year: 'numeric', month: 'long', day: 'numeric' };
+    let formattedEndDate = endDate.toLocaleDateString('en-US', options);
+     
+      document.getElementById("sustaining").innerText = 
+      `Average Spendings Per Month : ${monthlySpending}$ 
+      You can sustain living for ${months} months and ${days} days, until ${formattedEndDate}.`
+    
+}
+
+// Example usage:
+
+calculateSustainability(AverageMoneySpent,Math.round(cumulativeIncome));
+
+
+
+
+
+
+
+           
+       return [AverageMoneySpent,go] 
+},
+        mainBankAccount(id){
+          
+          
+            const ab = document.getElementById('expenseAmount');
+            const ac = document.getElementById('expenseAmount');
+            
+            ab.placeholder = ` - ${id.substring(0, 3).toLocaleUpperCase()}`
+            ac.placeholder = ` - ${id.substring(0, 3).toLocaleUpperCase()}`
+
+         if (id === "plnBank") {
+            document.getElementById("plnBank").style.backgroundColor = "red";
+            document.getElementById("mdlBank").style.backgroundColor = "";
+            document.getElementById("eurBank").style.backgroundColor = "";
+            document.getElementById("usdBank").style.backgroundColor = "";
+            
+         } else if(id === "mdlBank") {
+            document.getElementById("plnBank").style.backgroundColor = "";
+            document.getElementById("mdlBank").style.backgroundColor = "red";
+            document.getElementById("eurBank").style.backgroundColor = "";
+            document.getElementById("usdBank").style.backgroundColor = "";
+         }else if (id === "eurBank"){
+            document.getElementById("plnBank").style.backgroundColor = "";
+            document.getElementById("mdlBank").style.backgroundColor = "";
+            document.getElementById("eurBank").style.backgroundColor = "red";
+            document.getElementById("usdBank").style.backgroundColor = "";
+         }else{
+            document.getElementById("plnBank").style.backgroundColor = "";
+            document.getElementById("mdlBank").style.backgroundColor = "";
+            document.getElementById("eurBank").style.backgroundColor = "";
+            document.getElementById("usdBank").style.backgroundColor = "red";
+         }
+         budgetData.currencyData.bank = id;
+         MainBankInSistem = id;
+
+    
+         (id === "plnBank") && (CurrentExchange =Number(budgetData.currencyData.ratePLN));
+         (id === "mdlBank") && (CurrentExchange = Number(budgetData.currencyData.rateMDL));
+         (id === "eurBank") && (CurrentExchange = Number(budgetData.currencyData.rateEUR));
+         (id === "usdBank") && (CurrentExchange = 1);
+         localStorage.setItem("POWER",JSON.stringify(budgetData));
+        
+
+        },
+        changeBckgroundColor() {
+        const a = document.getElementById('expenseAmount');
+        if (Number(a.value) > 0) {
+           a.style.backgroundColor = "green"
+           a.style.color = "white"
+        } else {
+            a.style.backgroundColor = "white"
+           a.style.color = "black"
+        }
+        },
+        changeBckgroundColor2() {
+        const a = document.getElementById('updateAmount');
+        if (Number(a.value) > 0) {
+           a.style.backgroundColor = "green"
+           a.style.color = "white"
+        } else {
+            a.style.backgroundColor = "white"
+           a.style.color = "black"
+        }
+        },
+
+}
+
+
+
+window.onload = function() {
+          BOX.currencyLoadData();
+          BOX.currencyCalculateTotal();
+        };
+        BOX.pizzaCreateElements();
+        BOX.pizzaUpdateChart();
+        const ctx = document.getElementById('linearChart').getContext('2d');
+        let labels = [], incomeData = [], outcomeData = [];
+        let cumulativeIncome = 0, cumulativeOutcome = 0;
+        let myChart;
+        BOX.linearloadSavedData();
+        BOX.linearCreateChart();
+        BOX.linearUpdateChart();
+       BOX.barUpdateDisplay();
+       BOX.MonthSwicher(); 
+       document.getElementById("MonthHours").innerText =
+              `Previous Month hours: ${previousMonthHours} : ${MoneyLastMonth} PLN 
+               Current Month hurs: ${currentMonthHours} : ${MoneyThisMonth} PLN`
+
+
+
+
+
+
+
+
+               const LEARN = {
+                loadChartData(key, defaultValue) {
+                  return JSON.parse(localStorage.getItem(key)) || defaultValue;
+                 },
+                 saveChartData(key, data) {
+                 localStorage.setItem(key, JSON.stringify(data));
+                 },
+                 getCurrentDate() {
+                 let date = new Date();
+                 return date.toISOString().split('T')[0];
+                 },
+                 resetCharts() {
+                  
+                    budgetData.learnStore =  {
+                                "labels3": [],
+                                "redData3": [0],
+                                "greenData3": [0]
+                            };
+                    localStorage.setItem("POWER",JSON.stringify(budgetData))
+
+                    console.log(JSON.parse(localStorage.getItem("POWER")))
+                   
+            
+                 },
+                 UpdateJustChart() {
+                    myChart2.update();
+                    
+                 },
+                 updateChart2() {
+              
+                    labels2.push(LEARN.getCurrentDate());
+                    redData2.push((redData2[redData2.length - 1] + redValue) );
+                    greenData2.push((greenData2[greenData2.length - 1] + greenValue) );
+                    
+                    
+                        const learnStore = {
+                        labels3: labels2,
+                        redData3: redData2,
+                        greenData3: greenData2 
+                    };
+                     budgetData.learnStore = learnStore;
+                    localStorage.setItem("POWER" , JSON.stringify(budgetData));
+
+                    
+                    LEARN.updateChart1()
+                    
+                    myChart2.update();
+                },
+                updateChart1() {
+                    let redValue =  0;
+                    let greenValue =  0;
+
+                    
+
+                    let targetProgress = [];
+
+                    if (localStorage.getItem("learnProgress")) {
+                        
+                        targetProgress = JSON.parse(localStorage.getItem("learnProgress"));
+
+                        targetProgress.forEach(element => {
+                            greenValue +=  Number(element.end)
+                            redValue += element.totalEnd
+                            
+                        });
+                        
+                    }
+
+                     document.getElementById("toBeLearned3").innerText = `To be learned: ${redValue}`
+                     document.getElementById("learned3").innerText = `Learned: ${greenValue}`
+                
+                        
+            
+            
+                    
+                
+                    
+                    labels1.push(LEARN.getCurrentDate());
+                    redData1.push(redValue);
+                    greenData1.push(greenValue);
+
+
+                    budgetData.progressLearn.redData = redData1;
+                    budgetData.progressLearn.greenData = greenData1;
+                    budgetData.progressLearn.labels = labels1;
+            
+                   localStorage.setItem("POWER",JSON.stringify(budgetData))
+
+
+
+
+            
+                    
+                    myChart3.update();
+        },
+
+
+               }
+
+              
+               document.getElementById("selfImprovement").innerText =  `Improovement hours: ${budgetData.learnStore.greenData3[budgetData.learnStore.greenData3.length -1]}`
+
+              const b = JSON.parse(localStorage.getItem("POWER")) || POWER;
+              const {labels3 , redData3 , greenData3 } = b.learnStore;
+              const labbb = labels3.length === 0 ? [LEARN.getCurrentDate()] : labels3
+
+               let labels2 = labbb;
+                let redData2 = redData3
+                let greenData2 = greenData3
+                const learnStore = {
+                labels3: labels2,
+                redData3: redData2,
+                greenData3: greenData2 
+               };
+               budgetData.learnStore = learnStore;
+               localStorage.setItem("POWER" , JSON.stringify(budgetData));
+
+
+                let ctx2 = document.getElementById("myChart2").getContext("2d");
+
+                    let myChart2 = new Chart(ctx2, {
+                        type: 'line',
+                        data: {
+                            labels: labels2,
+                            datasets: [
+                                {
+                                    label: 'Red',
+                                    data: redData2,
+                                    borderColor: 'red',
+                                    fill: false,
+                                    tension: 0.4
+                                },
+                                {
+                                    label: 'Green',
+                                    data: greenData2,
+                                    borderColor: 'green',
+                                    fill: false,
+                                    tension: 0.4
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: false
+                                }
+                            }
+                        }
+                    });
+
+
+
+        let labels1 = budgetData.progressLearn.labels;
+        let redData1 = budgetData.progressLearn.redData;
+        let greenData1 = budgetData.progressLearn.greenData;
+        let ctx1 = document.getElementById("myChart3").getContext("2d");
+
+
+        let myChart3 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: labels1,
+                datasets: [
+                    {
+                        label: 'Red',
+                        data: redData1,
+                        borderColor: 'red',
+                        fill: false,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Green',
+                        data: greenData1,
+                        borderColor: 'green',
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+
+
+/////////////////////////////time//////////////////////////////////////////////
+
+let a = [];
+    function   getCurrentDate() {
+                 let date = new Date();
+                 return date.toISOString().split('T')[0];
+                 }
+         
+        if(JSON.parse(localStorage.getItem("POWER"))){
+            a = JSON.parse(localStorage.getItem("POWER")) 
+        }
+
+  
+
+        function updateClock() {
+            let days = Math.floor(timeInSeconds / 86400).toString().padStart(2, '0'); 
+            let hours = Math.floor((timeInSeconds % 86400) / 3600).toString().padStart(2, '0');
+            let minutes = Math.floor((timeInSeconds % 3600) / 60).toString().padStart(2, '0');
+            let seconds = (timeInSeconds % 60).toString().padStart(2, '0');
+            document.getElementById("clock").textContent = `${days}:${hours}:${minutes}:${seconds}`;
+            timeInSeconds++;
+        }
+       
+         
+        function saveTime() {
+            localStorage.setItem("savedTime", timeInSeconds);
+            localStorage.setItem("lastTimestamp", Date.now()); // Save the exact close time
+            localStorage.setItem("PowerTime" , (timeInSeconds/3600).toFixed(2))
+
+        }
+
+        function addTime() {
+            let addedHours = parseInt(document.getElementById("addHours").value) || 0;
+            let addedMinutes = parseInt(document.getElementById("addMinutes").value) || 0;
+            
+            let addedSeconds = (addedHours * 3600) + (addedMinutes * 60);
+            timeInSeconds += addedSeconds;
+
+            document.getElementById("addHours").value = ""
+            document.getElementById("addMinutes").value = ""
+
+            
+            saveTime(); // Immediately update localStorage
+            updateClock(); // Immediately update the display
+            LEARN.UpdateJustChart()
+            
+            console.log("updateChart")
+        }
+
+        let timer = setInterval(updateClock, 1000);
+
+        window.addEventListener("beforeunload", saveTime);
+
+
+        budgetData.learnStore.greenData3[budgetData.learnStore.greenData3.length - 1] = Number((timeInSeconds/3600).toFixed(2))
+           
+        localStorage.setItem("POWER" , JSON.stringify(budgetData));
+
+
+   
+
+ 
+
+
+
+
+
+
+
+  
+
+      console.log(budgetData)
+    </script>
+</body>
+</html>
