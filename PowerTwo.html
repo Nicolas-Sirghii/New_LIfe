@@ -1973,6 +1973,8 @@ let selectedExpenseIndex = null;
             budgetData.learnStore.redData3[budgetData.learnStore.redData3.length - 1] = sbar;    
             localStorage.setItem("POWER" , JSON.stringify(budgetData));
 
+            LEARN.update_firstGraph();
+
            } else {
             workData.workDays.push(workDay);
             workData.totalEarned += earnedAmount;
@@ -2499,9 +2501,55 @@ window.onload = function() {
                     
                     myChart3.update();
         },
+                update_firstGraph(){
+                    let redValue =  0;
+                    let greenValue =  0;
+
+                    
+
+                    let targetProgress = [];
+
+                    if (localStorage.getItem("learnProgress")) {
+                        
+                        targetProgress = JSON.parse(localStorage.getItem("learnProgress"));
+
+                        targetProgress.forEach(element => {
+                            greenValue +=  Number(element.end)
+                            redValue += element.totalEnd
+                            
+                        });
+                        
+                    }
+
+                     document.getElementById("toBeLearned3").innerText = `To be learned: ${redValue}`
+                     document.getElementById("learned3").innerText = `Learned: ${greenValue}`
+                
+                        
+            
+            
+
+                    redData1[redData1.length - 1] = redValue;
+                    greenData1[greenData1.length - 1] = greenValue;
+
+
+                    budgetData.progressLearn.redData = redData1;
+                    budgetData.progressLearn.greenData = greenData1;
+                    budgetData.progressLearn.labels = labels1;
+            
+                   localStorage.setItem("POWER",JSON.stringify(budgetData))
+
+
+
+
+            
+                    
+                    myChart3.update();
+                  }
 
 
                }
+
+               
 
               
                document.getElementById("selfImprovement").innerText =  `Improovement hours: ${budgetData.learnStore.greenData3[budgetData.learnStore.greenData3.length -1]}`
@@ -2771,7 +2819,7 @@ function updateProgress(inputValue) {
 
 
 
-
+      LEARN.update_firstGraph();
 
   
 
